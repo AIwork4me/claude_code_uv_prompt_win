@@ -27,68 +27,63 @@ A validated prompt that enables Claude Code to create fully isolated Python envi
 ## Prerequisites
 
 1. **Claude Code CLI** - [Install Guide](https://docs.anthropic.com/en/docs/claude-code)
-2. **uv** (optional but recommended) - [Install Guide](https://docs.astral.sh/uv/getting-started/installation/)
+2. **uv** (recommended) - [Install Guide](https://docs.astral.sh/uv/getting-started/installation/)
 3. **Windows 10/11** with PowerShell or Git Bash
 
-## Quick Start
+## How to Use
 
-### Option 1: Copy to CLAUDE.md (Recommended)
-
-1. Copy `claude_uv_win.md` content to your project's `CLAUDE.md`
-2. Replace `[Your Project Name]` with your actual project name
-3. Start Claude Code in that directory
-
-### Option 2: Use as a Prompt
-
-Paste the content directly when starting a new Claude Code session:
-
-```
-Read the file at: path/to/claude_uv_win.md
-Execute now for: my_project_name
-```
-
-### Option 3: Download Only
+### Step 1: Create Your Project Directory
 
 ```bash
-# Download the prompt file
-curl -O https://raw.githubusercontent.com/aiwork4me/claude_code_uv_prompt_win/main/claude_uv_win.md
+mkdir my_project
+cd my_project
 ```
 
-## Usage Example
+### Step 2: Copy the Prompt
 
-After providing the prompt to Claude Code, it will:
+Copy the entire content of [claude_uv_win.md](claude_uv_win.md)
 
-```
-1. Check for global uv installation
-2. Initialize project with uv init
-3. Fix .python-version to 3.12
-4. Fix pyproject.toml to pin Python 3.12.x
-5. Install Python 3.12 locally
-6. Create venv with --python-preference only-managed
-7. Update .gitignore
-8. Generate CLAUDE.md for persistence
-9. Verify everything works
-```
+### Step 3: Send to Claude Code
 
-### Expected Output
+Paste the prompt content to Claude Code with your project name:
 
 ```
-Python: 3.12.12
-Path: C:\Users\...\my_project\.venv\Scripts\python.exe
-Island Mode Active. Python 3.12.x is local. Ready for automated development.
+<paste the claude_uv_win.md content here>
+
+Execute now for: my_project
 ```
 
-## Verification
+**That's it!** Claude Code will handle everything.
 
-Check that your environment is properly isolated:
+### Step 4: Verify (Optional)
 
 ```bash
-# Should point to local .venv
+# Check Python path points to local .venv
 uv run python -c "import sys; print(sys.executable)"
 
-# Check pyvenv.cfg - home should point to .python_runtime
+# Check .venv/pyvenv.cfg - home should point to .python_runtime
 cat .venv/pyvenv.cfg
 ```
+
+Expected output:
+```
+Path: C:\...\my_project\.venv\Scripts\python.exe
+home = C:\...\my_project\.python_runtime\cpython-3.12-...
+```
+
+## What Claude Code Will Do
+
+After receiving the prompt, Claude Code will execute these steps automatically:
+
+1. Check for global `uv` installation
+2. Initialize project with `uv init`
+3. Fix `.python-version` to `3.12`
+4. Fix `pyproject.toml` to pin Python 3.12.x
+5. Install Python 3.12 locally
+6. Create venv with `--python-preference only-managed`
+7. Update `.gitignore`
+8. Generate `CLAUDE.md` for persistence
+9. Verify everything works
 
 ## Project Structure
 
@@ -138,16 +133,6 @@ Edit the prompt to use a different version:
 
 - requires-python = ">=3.12,<3.13"
 + requires-python = ">=3.11,<3.12"
-```
-
-### Use Local uv Binary
-
-If you want to download uv into the project instead of using global:
-
-```diff
-- First check if `uv` is available globally
-- If available, use `uv` directly
-+ Download uv standalone binary into project root
 ```
 
 ## Troubleshooting

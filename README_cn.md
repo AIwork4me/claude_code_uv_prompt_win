@@ -1,8 +1,8 @@
 # Claude Code Windows 版 Python 环境隔离提示词
 
-一个经过验证的提示词，让 Claude Code 在 Windows 上使用 [uv](https://github.com/astral-sh/uv) 创建完全隔离的 Python 环境。
-
 [English](README.md) | 中文
+
+一个经过验证的提示词，让 Claude Code 在 Windows 上使用 [uv](https://github.com/astral-sh/uv) 创建完全隔离的 Python 环境。
 
 ## 什么是"岛屿模式"（Island Mode）？
 
@@ -27,68 +27,63 @@
 ## 前置要求
 
 1. **Claude Code CLI** - [安装指南](https://docs.anthropic.com/en/docs/claude-code)
-2. **uv**（推荐但非必需）- [安装指南](https://docs.astral.sh/uv/getting-started/installation/)
+2. **uv**（推荐）- [安装指南](https://docs.astral.sh/uv/getting-started/installation/)
 3. **Windows 10/11** 搭配 PowerShell 或 Git Bash
 
-## 快速开始
+## 如何使用
 
-### 方式一：复制到 CLAUDE.md（推荐）
-
-1. 将 `claude_uv_win.md` 的内容复制到您项目的 `CLAUDE.md`
-2. 将 `[Your Project Name]` 替换为实际项目名称
-3. 在该目录中启动 Claude Code
-
-### 方式二：作为提示词使用
-
-在新的 Claude Code 会话中直接粘贴内容：
-
-```
-读取文件：path/to/claude_uv_win.md
-执行项目：my_project_name
-```
-
-### 方式三：仅下载
+### 第一步：创建项目目录
 
 ```bash
-# 下载提示词文件
-curl -O https://raw.githubusercontent.com/aiwork4me/claude_code_uv_prompt_win/main/claude_uv_win.md
+mkdir my_project
+cd my_project
 ```
 
-## 使用示例
+### 第二步：复制提示词
 
-将提示词提供给 Claude Code 后，它会：
+复制 [claude_uv_win.md](claude_uv_win.md) 的全部内容
 
-```
-1. 检查全局 uv 安装
-2. 使用 uv init 初始化项目
-3. 修复 .python-version 为 3.12
-4. 修复 pyproject.toml 锁定 Python 3.12.x
-5. 在本地安装 Python 3.12
-6. 使用 --python-preference only-managed 创建 venv
-7. 更新 .gitignore
-8. 生成 CLAUDE.md 用于持久化
-9. 验证一切正常
-```
+### 第三步：发送给 Claude Code
 
-### 预期输出
+将提示词内容粘贴给 Claude Code，并附上您的项目名称：
 
 ```
-Python: 3.12.12
-Path: C:\Users\...\my_project\.venv\Scripts\python.exe
-Island Mode Active. Python 3.12.x is local. Ready for automated development.
+<在此粘贴 claude_uv_win.md 的内容>
+
+Execute now for: my_project
 ```
 
-## 验证方法
+**就这样！** Claude Code 会自动处理一切。
 
-检查您的环境是否正确隔离：
+### 第四步：验证（可选）
 
 ```bash
-# 应该指向本地 .venv
+# 检查 Python 路径是否指向本地 .venv
 uv run python -c "import sys; print(sys.executable)"
 
-# 检查 pyvenv.cfg - home 应该指向 .python_runtime
+# 检查 .venv/pyvenv.cfg - home 应该指向 .python_runtime
 cat .venv/pyvenv.cfg
 ```
+
+预期输出：
+```
+Path: C:\...\my_project\.venv\Scripts\python.exe
+home = C:\...\my_project\.python_runtime\cpython-3.12-...
+```
+
+## Claude Code 会做什么
+
+收到提示词后，Claude Code 会自动执行以下步骤：
+
+1. 检查全局 `uv` 安装
+2. 使用 `uv init` 初始化项目
+3. 修复 `.python-version` 为 `3.12`
+4. 修复 `pyproject.toml` 锁定 Python 3.12.x
+5. 在本地安装 Python 3.12
+6. 使用 `--python-preference only-managed` 创建 venv
+7. 更新 `.gitignore`
+8. 生成 `CLAUDE.md` 用于持久化
+9. 验证一切正常
 
 ## 项目结构
 
@@ -138,16 +133,6 @@ my_project/
 
 - requires-python = ">=3.12,<3.13"
 + requires-python = ">=3.11,<3.12"
-```
-
-### 使用本地 uv 二进制文件
-
-如果您想将 uv 下载到项目中而不是使用全局的：
-
-```diff
-- 首先检查全局是否有 uv
-- 如果有，直接使用
-+ 下载 uv 独立二进制文件到项目根目录
 ```
 
 ## 常见问题
