@@ -1,5 +1,7 @@
 # Claude Code UV Prompt for Windows
 
+[English](README.md) | [中文](README_cn.md)
+
 A validated prompt that enables Claude Code to create fully isolated Python environments on Windows using [uv](https://github.com/astral-sh/uv).
 
 ## What is "Island Mode"?
